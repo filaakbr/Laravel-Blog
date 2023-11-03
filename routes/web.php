@@ -1,7 +1,9 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use App\Models\Blog;
+use App\Models\Post;
+
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 
 /*
@@ -16,24 +18,36 @@ use App\Http\Controllers\PostController;
 */
 
 Route::get('/', function () {
-    return view('home');
+    return view('home', [
+        "title" => "Home"
+    ]);
 });
 
 
 Route::get('/about', function () {
     return view('about', [
-        "nama" => "Fila Akbar" ,
+        "title" => "About",
+        "name" => "Fila Akbar" ,
         "email" => "fila_21310003@stimata.ac.id" ,
-        "gambar" => ""
+        "image" => "img.jpg"
     ]);
 });
 
-// Route::get('/Blog', function ()  {
-//     return view('blog');
 
-    
-// });
 
+Route::get('/posts', function () {
+    return view('posts', [
+        "title" => "Posts",
+        "posts" => Post::all()
+    ]);
+});
+
+Route::get('/posts/{slug}', function ($slug) {
+    return view('post', [
+        "title" => "Single Post",
+        "post" => Post::find($slug)
+    ]);
+});
 // Route::get('/create-blog', function(){
 //     $blog = new Blog();
 //     $blog->title ='Test Title';
@@ -46,6 +60,6 @@ Route::get('/about', function () {
 //     return response()->json(Blog::all());
 // });
 
-Route::get('/posts', [PostController::class, 'index']);
+// Route::get('/posts', [ PostController::class, 'index']);
 
-Route::get('/posts/{slug}', [PostController::class, 'show']);
+// Route::get('/posts/{slug}', [PostController::class, 'show']);
